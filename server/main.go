@@ -22,7 +22,7 @@ func main() {
 	todos := []Todo{}
 
 	app.Get("healthcheck", func(c *fiber.Ctx) error {
-		return c.SendString("OK")
+		return c.JSON(todos)
 	})
 
 	app.Post("/api/todos", func(c *fiber.Ctx) error {
@@ -35,6 +35,43 @@ func main() {
 		todos = append(todos, *todo)
 
 		return c.JSON(todos)
+	})
+
+	app.Patch("/api/todos/:id/done", func(c *fiber.Ctx) error {
+		id, err := c.ParamsInt("id")
+
+		if err != nil {
+			return c.Status(401).SendString("Invalid ID")
+		}
+
+		for i, t := range todos {
+			if t.ID == id {
+				todos[i].DONE = true
+				break
+			}
+		}
+		return c.JSON(todos)
+	})
+
+	app.Delete("/api/todos/:id", func(c *fiber.Ctx) error {
+
+		id, err := c.ParamsInt("id")
+
+		if err != nil {
+			return c.Status(401).SendString("Invalid ID")
+		}
+
+		if id == -1 {
+			return c.JSON("ID not found")
+		}
+
+		for i, t := range todos {
+			if t.ID == id {
+				todos = append(todos[:i], todos[i+1:]...)
+			}
+
+		}
+		return c.JSON("Deleted Successfully")
 	})
 
 	log.Fatal(app.Listen(":4000"))
