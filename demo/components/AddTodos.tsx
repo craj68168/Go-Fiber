@@ -31,7 +31,12 @@ const AddTodos = ({ mutate }: any) => {
   };
   return (
     <div>
-      <Modal opened={open} onClose={() => setOpen(false)} title="Create Todos">
+      <Modal
+        opened={open}
+        onClose={() => setOpen(false)}
+        title="Create Todos"
+        size={"xl"}
+      >
         <form onSubmit={formik.handleSubmit}>
           <TextInput
             mb={12}
