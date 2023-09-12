@@ -31,7 +31,7 @@ const AddTodos = ({ mutate }: any) => {
   };
   return (
     <div>
-      <Modal opened={open} onClose={() => setOpen(false)} title="Create todo">
+      <Modal opened={open} onClose={() => setOpen(false)} title="Create Todos">
         <form onSubmit={formik.handleSubmit}>
           <TextInput
             mb={12}
@@ -55,7 +55,11 @@ const AddTodos = ({ mutate }: any) => {
         </form>
       </Modal>
       <Group position="center">
-        <Button fullWidth mb={12} onClick={() => setOpen(true)}>
+        <Button
+          style={{ width: "50%", height: "50px" }}
+          mb={12}
+          onClick={() => setOpen(true)}
+        >
           Add Todo
         </Button>
       </Group>

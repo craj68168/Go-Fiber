@@ -17,6 +17,7 @@ export default function Home() {
     }).then((r) => r.json());
     mutate(update);
   };
+
   return (
     <>
       <Box
@@ -27,23 +28,20 @@ export default function Home() {
           margin: "0 auto",
         })}
       >
-        <List center spacing={"xs"} size="sm" mb={12}>
+        <List center spacing={"xs"} size="sm" mt={12}>
           {data?.map((d: any) => {
             return (
               <List.Item
                 key={d?.id}
+                onClick={() => updateMarkDone(d?.id)}
+                style={{ cursor: "pointer" }}
                 icon={
-                  d.done ? ( 
+                  d.done ? (
                     <ThemeIcon color={"teal"} radius="xl" size={24}>
                       <CheckCircleFillIcon size={20} />
                     </ThemeIcon>
                   ) : (
-                    <ThemeIcon
-                      color={"gray"}
-                      radius="xl"
-                      size={24}
-                      onClick={() => updateMarkDone(d?.id)}
-                    >
+                    <ThemeIcon color={"gray"} radius="xl" size={24}>
                       <CheckCircleFillIcon size={20} />
                     </ThemeIcon>
                   )
