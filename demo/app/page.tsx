@@ -5,13 +5,18 @@ import { CheckCircleFillIcon } from "@primer/octicons-react";
 import useSWR from "swr";
 
 export const END_POINT = "http://localhost:4000";
-const fetcher = (url: any) => {
+const fetcher = (url: string) => {
   return fetch(`${END_POINT}/${url}`).then((r) => r.json());
 };
 export default function Home() {
   const { data, mutate } = useSWR("api/todos", fetcher);
-  console.log("data", data);
 
+  const updateMarkDone = async (id: number) => {
+    const update = await fetch(`${END_POINT}/api/todos/${id}/done`, {
+      method: "PATCH",
+    }).then((r) => r.json());
+    mutate(update);
+  };
   return (
     <>
       <Box
@@ -28,13 +33,20 @@ export default function Home() {
               <List.Item
                 key={d?.id}
                 icon={
-                  d.done ? (
+                  d.done ? ( 
                     <ThemeIcon color={"teal"} radius="xl" size={24}>
-                      <CheckCircleFillIcon size={20}/>
+                      <CheckCircleFillIcon size={20} />
                     </ThemeIcon>
-                  ) : ( <ThemeIcon color={"gray"} radius="xl" size={24}>
-                  <CheckCircleFillIcon size={20}/>
-                </ThemeIcon>)
+                  ) : (
+                    <ThemeIcon
+                      color={"gray"}
+                      radius="xl"
+                      size={24}
+                      onClick={() => updateMarkDone(d?.id)}
+                    >
+                      <CheckCircleFillIcon size={20} />
+                    </ThemeIcon>
+                  )
                 }
               >
                 {d?.title}
