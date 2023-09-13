@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,8 +15,6 @@ type Todo struct {
 }
 
 func main() {
-	fmt.Print("Hello World")
-
 	app := fiber.New()
 
 	app.Use(cors.New(cors.Config{
@@ -39,7 +36,6 @@ func main() {
 		}
 		todo.ID = len(todos) + 1
 		todos = append(todos, *todo)
-
 		return c.JSON(todos)
 	})
 
